@@ -34,4 +34,7 @@ public class HomeWork {
 
     private String updateUserName;
 
+    private String inResultScore;
+
+    private String inType;
 }

@@ -22,7 +22,7 @@
         <div class="col-xs-6 col-lg-4" th:each="homework:${homeworks}">
             <h2 th:text="${homework.homeWorkTitle}"></h2>
             <p th:text="'创建者：'+${homework.createUseName}"></p>
-            <p th:text="'创建试卷：'+${#dates.format(homework.createTime, 'yyyy-MM-dd HH:mm')}"></p>
+            <p th:text="'作业内容：'+ ${homework.homeWorkContent}"></p>
             <p><a class="btn btn-default" href="#" th:href="@{/exam/dohomeWork/}+${homework.id}" role="button">完成作业 »</a></p>
         </div><!--/.col-xs-6.col-lg-4-->
     </div>

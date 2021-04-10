@@ -8,91 +8,178 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
-    <title>学生作业管理系统首页</title>
+    <title>学生作业管理系统待考试卷</title>
     <!-- Bootstrap core CSS -->
     <link href="#" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet">
 </head>
 <body>
 <div class="container">
 
-    <div id="examnav" th:fragment="examnav" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-        <h5 class="my-0 mr-md-auto font-weight-normal">学生作业管理系统</h5>
-        <nav class="my-2 my-md-0 mr-md-5">
-            <a class="text-dark mr-md-5" href="#" disabled th:text="'!考试!'+${paperName.paperName}"></a>
-            <a class="btn btn-info" th:class="${activeUri=='/exam/toHome'?'btn btn-warning':'btn btn-info'}" th:href="@{/exam/toHome}" href="#" disabled="">首页</a>
-            <a class="btn btn-info" th:class="${activeUri=='/exam/toExam'?'btn btn-warning':'btn btn-info'}" th:href="@{/exam/toExam}">考试</a>
-            <a class="btn btn-info" th:class="${activeUri=='/exam/toHist'?'btn btn-warning':'btn btn-info'}" th:href="@{/exam/toHist/}+${session.loger.studentId}">记录</a>
-        </nav>
-        <div class="col-md-1">
-            <a class="btn btn-outline-warning" href="#">用户</a>
-        </div>
-        <div class="col-md-1">
-            <a class="btn btn-outline-primary" href="#" th:text="${session.loger.getStudentAccount()}"></a>
-        </div>
-        <div class="col-md-2">
-            <a class="btn btn-danger" href="#" th:href="@{/logout}">Logout</a>
-        </div>
-    </div>
+    <!--examnav-->
+    <div th:replace="commons/bar::#examnav(activeUri='/exam/toExam')"></div>
 
-
-
-    <div class="row">
-        <div id="timemchine" class="alert alert-success col-3 fixedNav fixed-top m-lg-4" role="alert" th:text="'现 在 时 间 :'+${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd hh:mm:ss')}+'作业可以多次提交，以最后一次提交为准'"></div>
-        <div class="col-md-3"></div>
-        <form th:action="@{/exam/submitHomeWork}" method="post">
-
-            <button class="btn btn-success" th:text="提交"></button>
-            <!--提交试卷id，学生id-->
-            <input type="hidden" name="homworkId"  th:value="${homeWork.id}">
-            <input type="hidden" name="studentId" th:value="${session.loger.studentId}">
-            <div>
-                <div class="row form-check" th:each="qb,qbStat:${questionPapers}">
-                    <div class="col-xs-12 col-lg-12">
-                        <!--分三种题型显示以及提交值-->
-                        <label th:if="${qb.question.questionType=='y'}" th:text="${qbStat.count}+'.('+'多选题'+')'+${qb.question.questionName}+'（ ）'"></label><br>
-                        <label th:if="${qb.question.questionType!='y'}" th:text="${qbStat.count}+'.'+${qb.question.questionName}+'（ ）'"></label>
-                        <br th:if="${qb.question.questionType!='y'}">
-                        <label class="form-radio-label" th:if="${qb.question.questionType=='x'}">
-                            <input class="form-radio-input" type="radio" th:name="'optionsSelect'+${qb.question.questionId}" value="A">
-                            <span class="form-radio-sign" th:text="'A.'+${qb.question.getQuestionOpa()}"></span><br>
-                            <input class="form-radio-input" type="radio" th:name="'optionsSelect'+${qb.question.questionId}" value="B">
-                            <span class="form-radio-sign" th:text="'B.'+${qb.question.getQuestionOpb()}"></span><br>
-                            <input class="form-radio-input" th:if="${qb.question.getQuestionOpc()}!=null" type="radio" th:name="'optionsSelect'+${qb.question.questionId}" value="C">
-                            <span class="form-radio-sign" th:if="${qb.question.getQuestionOpc()}!=null"  th:text="'C.'+${qb.question.getQuestionOpc()}"></span><br>
-                            <input class="form-radio-input" th:if="${qb.question.getQuestionOpd()}!=null" type="radio" th:name="'optionsSelect'+${qb.question.questionId}" value="D">
-                            <span class="form-radio-sign" th:if="${qb.question.getQuestionOpd()}!=null"  th:text="'D.'+${qb.question.getQuestionOpd()}"></span><br><br>
-                        </label>
-                        <label class="form-radio-label" th:if="${qb.question.questionType=='y'}">
-                            <input class="form-radio-input" type="checkbox" th:name="'optionsSelect'+${qb.question.questionId}" value="A">
-                            <span class="form-radio-sign" th:text="'A.'+${qb.question.getQuestionOpa()}"></span><br>
-                            <input class="form-radio-input" type="checkbox" th:name="'optionsSelect'+${qb.question.questionId}" value="B">
-                            <span class="form-radio-sign" th:text="'B.'+${qb.question.getQuestionOpb()}"></span><br>
-                            <input class="form-radio-input"  type="checkbox" th:name="'optionsSelect'+${qb.question.questionId}" value="C">
-                            <span class="form-radio-sign" th:text="'C.'+${qb.question.getQuestionOpc()}"></span><br>
-                            <input class="form-radio-input"  type="checkbox" th:name="'optionsSelect'+${qb.question.questionId}" value="D">
-                            <span class="form-radio-sign" th:text="'D.'+${qb.question.getQuestionOpd()}"></span><br><br>
-                        </label>
-                        <label class="form-radio-label" th:if="${qb.question.questionType=='z'}">
-                            <input class="form-radio-input" type="radio" th:name="'optionsSelect'+${qb.question.questionId}" value="T">
-                            <span class="form-radio-sign" th:text="${qb.question.getQuestionOpa()}"></span><br>
-                            <input class="form-radio-input" type="radio" th:name="'optionsSelect'+${qb.question.questionId}" value="F">
-                            <span class="form-radio-sign" th:text="${qb.question.getQuestionOpb()}"></span><br>
-                        </label>
+    <div class="main-panel">
+        <div class="content">
+            <div class="container-fluid">
+                <h4 class="page-title">评论一览</h4>
+                <div class="col-md-6">
+                    <!-- 评论一览 -->
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table table-head-bg-success">
+                                <thead>
+                                <tr>
+                                    <th scope="col">编号</th>
+                                    <th scope="col">评论标题</th>
+                                    <th scope="col">评论内容</th>
+                                    <th scope="col">身份</th>
+                                    <th scope="col">用户名</th>
+                                    <th scope="col">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="comment:${readcomments}">
+                                    <td th:text="${comment.id}"></td>
+                                    <td th:text="${comment.commentTitle}"></td>
+                                    <td th:text="${comment.commentContent}"></td>
+                                    <td th:text="${comment.commentUserType}"></td>
+                                    <td th:text="${comment.commentUserName}"></td>
+                                    <td>
+                                        <button th:attr="del_uri=@{/comment/deleteRecorest/}+${comment.id}" class="btn btn-sm btn-danger deleteBtn">删除</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+
+                    <hr>
+                    <form th:action="@{/comment/addStuComment}" method="post">
+                        <div class="card">
+                            <div class="card-body">
+                                <input type="hidden" name="homeworkId" th:value="${homeworkId}">
+                                <div class="form-group">
+                                    <label for="commentTitle">评论标题</label>
+                                    <input type="text" class="form-control" id="commentTitle" name="commentTitle" placeholder="评论标题">
+                                </div>
+                                <div class="form-group">
+                                    <label for="commentContent">评论内容</label>
+                                    <input type="text" class="form-control" id="commentContent" name="commentContent" placeholder="评论内容">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <button class="btn btn-success" th:text="添加"></button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </form>
+            <hr>
+
+
+            <div class="container-fluid">
+                <h4 class="page-title">作业提交一览</h4>
+                <div class="col-md-6">
+                    <table class="table table-head-bg-success">
+                        <thead>
+                        <tr>
+                            <th scope="col">编号</th>
+                            <th scope="col">作业标题</th>
+                            <th scope="col">作业内容</th>
+                            <th scope="col">文件</th>
+                            <th scope="col">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="answer:${homeWorkAnswers}">
+                            <td th:text="${answer.id}"></td>
+                            <td th:text="${answer.answerTitle}"></td>
+                            <td th:text="${answer.answerContent}"></td>
+                            <td> <a th:href="@{/filedownload?path=}+${answer.homeWorkFilePath}">文件下载</a></td>
+                            <td>
+                                <button th:attr="del_uri=@{/answer/deleteRecorest/}+${answer.id}" class="btn btn-sm btn-danger deleteBtn">删除</button>
+                                <button th:attr="send_uri=@{/exam/teachaercomment/}+${answer.id}" class="btn btn-sm btn-default pingjia">查看评价</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <form th:action="@{/homework/addHomeWorkAnswer}" method="post" enctype="multipart/form-data">
+                        <div class="card">
+                            <div class="card-body">
+                                <input type="hidden" name="homeworkId" th:value="${homeworkId}">
+                                <div class="form-group">
+                                    <label for="answerTitle">作业标题</label>
+                                    <input type="text" class="form-control" id="answerTitle" name="answerTitle" placeholder="作业标题">
+                                </div>
+                                <div class="form-group">
+                                    <label for="answerContent">作业内容</label>
+                                    <input type="text" class="form-control" id="answerContent" name="answerContent" placeholder="作业内容">
+                                </div>
+                                <div class="form-group">
+                                    <label for="answerContent">作业文件</label>
+                                    <input type="file" class="form-control" id="file" name="file" placeholder="作业文件">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <button class="btn btn-success" th:text="添加"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
     </div>
+
     <!--footer-->
     <div th:replace="commons/bar::footer"></div>
 </div> <!-- /container -->
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<!--//删除表单-->
+<form id="deleteClasseForm" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <input type="hidden" name="homeworkId" th:value="${homeworkId}">
+</form>
+
+<form id="updaeForm" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <input type="hidden" name="homeworkId" th:value="${homeworkId}">
+</form>
+<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 <script src="assets/js/core/jquery.3.2.1.min.js" th:src="@{/webjars/jquery/3.2.1/jquery.js}"></script>
-<script type="text/javascript">
-        $(function () {
-            setInterval(function () {
-                $("#timemchine").load(location.href + " #timemchine");
-            }, 1000);
-        })
+<script>
+    //删除指定id试题
+    $(".deleteBtn").click(function () {
+        //获取uri
+        // $(this).attr("del_uri")
+        //提交表单
+        // $("#deleteClasseForm").attr("action",$(this).attr("del_uri")).submit();
+        if(confirm("确实要删除吗？")){
+            //提交表单
+            $("#deleteClasseForm").attr("action",$(this).attr("del_uri")).submit();
+            layer.msg("删除成功", {time:2000, icon:6});
+        }else {
+            layer.msg("删除取消", {time:2000, icon:5, shift:6});
+        }
+        return false;
+    });
+
+    $(".pingjia").click(function () {
+        //获取uri
+        // $(this).attr("del_uri")
+        //提交表单
+        // $("#deleteClasseForm").attr("action",$(this).attr("del_uri")).submit();
+        if(confirm("确定查看？")){
+            //提交表单
+            $("#updaeForm").attr("action",$(this).attr("send_uri")).submit();
+
+        }else {
+
+        }
+        return false;
+    });
 </script>
 </body>
 </html>

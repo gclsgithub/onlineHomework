@@ -13,13 +13,15 @@ public class HomeWorkAnswer {
 
     private int studentId;
 
-    private String answerTitile;
+    private String answerTitle;
 
     private String answerContent;
 
-    protected String answerFilePath;
+    protected String homeWorkFilePath;
 
     private String deleteFlag;
+
+    private int  classId;
 
     private LocalDateTime createTime;
 

@@ -5,12 +5,7 @@ import edu.hytc.moon.domain.AjaxResult;
 import edu.hytc.moon.domain.Classe;
 import edu.hytc.moon.domain.Student;
 import edu.hytc.moon.domain.Teacher;
-import edu.hytc.moon.service.ClasseService;
-import edu.hytc.moon.service.PaperService;
-import edu.hytc.moon.service.QuestionService;
-import edu.hytc.moon.service.RecordService;
-import edu.hytc.moon.service.StudentService;
-import edu.hytc.moon.service.TeacherService;
+import edu.hytc.moon.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +30,9 @@ public class LoginController {
     private ClasseService classeService;
     @Autowired
     private RecordService recordService;
+
+    @Autowired
+    private HomeWorkService homeWorkService;
     @RequestMapping("/")
     public String view(Model model){
         //查询所有用户
@@ -45,9 +43,11 @@ public class LoginController {
         int allQues=questionService.queryCountAllQues();
         //统计试卷
         int allPaps=paperService.queryCountALlPaps();
+        int homeworkCount = homeWorkService.queryCountAllPas();
         model.addAttribute("allPaps",allPaps);
         model.addAttribute("allQues",allQues);
         model.addAttribute("alllogers",alllogers);
+        model.addAttribute("homeworkCount",homeworkCount);
         return "stage/prexam";
     }
     //后台切换到前台登录
@@ -87,6 +87,7 @@ public class LoginController {
         int allQues=questionService.queryCountAllQues();
         //统计试卷
         int allPaps=paperService.queryCountALlPaps();
+        int homeworkCount = homeWorkService.queryCountAllPas();
         List<Record> ScoreHStu=recordService.queryRankScoreRecord();
         List<Record> AccHStu=recordService.queryRankAccRecord();
         model.addAttribute("ScoreHStu",ScoreHStu);
@@ -94,6 +95,7 @@ public class LoginController {
         model.addAttribute("allPaps",allPaps);
         model.addAttribute("allQues",allQues);
         model.addAttribute("alllogers",alllogers);
+        model.addAttribute("homeworkCount",homeworkCount);
         return "index";
     }
 

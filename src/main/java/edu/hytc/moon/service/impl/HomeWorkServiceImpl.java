@@ -36,4 +36,29 @@ public class HomeWorkServiceImpl implements HomeWorkService {
         HomeWork homeWork = homeWorkMapper.findById(homeworkId);
         return homeWork;
     }
+
+    @Override
+    public List<HomeWork> findByOwnerId(int teacherId) {
+
+        List<HomeWork> homeWorks = homeWorkMapper.findByOwnerId(teacherId);
+        return homeWorks;
+    }
+
+    @Override
+    public int saveHomeWorkInfo(HomeWork homeWork) {
+
+
+        int count = homeWorkMapper.saveHomeWork(homeWork);
+        return count;
+    }
+
+    @Override
+    public void deleteHomeWork(Integer homeworkId) {
+        homeWorkMapper.deleteHomeWorkById(homeworkId);
+    }
+
+    @Override
+    public int queryCountAllPas() {
+        return homeWorkMapper.qurrayALl();
+    }
 }

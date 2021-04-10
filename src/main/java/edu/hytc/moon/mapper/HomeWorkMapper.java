@@ -1,9 +1,7 @@
 package edu.hytc.moon.mapper;
 
 import edu.hytc.moon.domain.HomeWork;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,9 +10,44 @@ import java.util.List;
 @Mapper
 public interface HomeWorkMapper {
 
-    @Select("select t1.*, t2.teacher_name as createUseName from homework t1,teacher t2 where t1.delete_flag = 1 AND  t1.class_id = #{classId} AND t1.create_use = t2.teacher_id ")
+    @Select("select " +
+            "t1.id" +
+            ",t1.home_work_title as homeWorkTitle" +
+            ",t1.home_work_content as homeWorkContent" +
+            ",t1.home_work_filePath as  homeWorkFilePath" +
+            ",t1.home_work_status as homeWorkStatus" +
+            ",t1.class_id as classId" +
+//            ",create_time as  createTime" +
+            ",t1.create_use as  createUse " +
+//            ",update_time as  updateTime " +
+            ",t1.update_user as updateUser" +
+            ", t2.teacher_name as createUseName from homework t1,teacher t2 where t1.delete_flag = 1 AND t1.create_use = t2.teacher_id ")
     List<HomeWork> findSomeClassHomeWork(@Param("classId") int classId);
 
-    @Select("SELECT * from homework where delete_flag = 1")
+    @Select("SELECT * from homework where delete_flag = 1 AND id = #{homeworkId}")
     HomeWork findById(int homeworkId);
+
+    @Select("SELECT " +
+            "id" +
+            ",home_work_title as homeWorkTitle" +
+            ",home_work_content as homeWorkContent" +
+            ",home_work_filePath as  homeWorkFilePath" +
+            ",home_work_status as homeWorkStatus" +
+            ",class_id as classId" +
+//            ",create_time as  createTime" +
+            ",create_use as  createUse " +
+//            ",update_time as  updateTime " +
+            ",update_user as updateUser" +
+            " from homework where update_user = #{teacherId} AND delete_flag = 1")
+    List<HomeWork> findByOwnerId(@Param("teacherId") int teacherId);
+
+    @Insert("insert into homework (home_work_title,home_work_content,home_work_filePath,home_work_status,delete_flag,class_id,create_time,create_use,update_time,update_user) " +
+                         "values  (#{info.homeWorkTitle},#{info.homeWorkContent},'','0','1',#{info.classId},NOW(),#{info.createUse},NOW(),#{info.updateUser})")
+    int saveHomeWork(@Param("info") HomeWork homeWork);
+
+    @Update("update homework set delete_flag = 0 where id = #{homeworkId}")
+    int deleteHomeWorkById(@Param("homeworkId") Integer homeworkId);
+
+    @Select("SELECT count(id) FROM  homework where delete_flag = 1")
+    int qurrayALl();
 }

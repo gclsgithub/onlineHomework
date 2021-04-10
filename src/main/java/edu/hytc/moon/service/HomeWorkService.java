@@ -11,4 +11,12 @@ public interface HomeWorkService {
     List<HomeWork> getAll(int seeId);
 
     HomeWork findHomeworkId(int homeworkId);
+
+    List<HomeWork> findByOwnerId(int teacherId);
+
+    int saveHomeWorkInfo(HomeWork homeWork);
+
+    void deleteHomeWork(Integer homeworkId);
+
+    int queryCountAllPas();
 }

@@ -3,10 +3,7 @@ package edu.hytc.moon.controller;
 
 import edu.hytc.moon.domain.*;
 import edu.hytc.moon.domain.Record;
-import edu.hytc.moon.service.ExamService;
-import edu.hytc.moon.service.HomeWorkService;
-import edu.hytc.moon.service.PaperService;
-import edu.hytc.moon.service.RecordService;
+import edu.hytc.moon.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,6 +23,11 @@ import java.util.List;
 public class ExamController {
     @Autowired
     private ExamService examService;
+    @Autowired
+    private HomeworkanswerService homeworkanswerService;
+
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private HomeWorkService homeWorkService;
@@ -77,13 +80,39 @@ public class ExamController {
     }
 
 
-    //来到对应考试页面
+    //完成作业e
     @RequestMapping("/dohomeWork/{id}")
-    public String toDoHomeWork(@PathVariable ("id") Integer homeworkId,Model model){
-        HomeWork homeWork = homeWorkService.findHomeworkId(homeworkId);
+    public String toDoHomeWork(@PathVariable ("id") Integer homeworkId,Model model, HttpServletRequest request){
+        model.addAttribute("homeworkId",homeworkId);
 
-        model.addAttribute("homeWork",homeWork);
+        HttpSession session=request.getSession();
+
+        Student student = (Student)session.getAttribute("loger");
+
+        List<Readcomment> readcomments = commentService.findByHomeWorkId(homeworkId);
+
+        //查找所有的学生提交
+        List<HomeWorkAnswer>  homeWorkAnswers = homeworkanswerService.findAnswerByHomeWorkIdAnnStudentId(homeworkId,student.getStudentId());
+
+
+
+        model.addAttribute("readcomments",readcomments);
+        model.addAttribute("homeWorkAnswers",homeWorkAnswers);
+
         return "exam/doHomeWork";
+    }
+    //完成作业e
+    @RequestMapping("/teachaercomment/{id}")
+    public String teachaercomment(@PathVariable ("id") Integer answerid,Model model, HttpServletRequest request){
+
+        HttpSession session=request.getSession();
+
+        Student student = (Student)session.getAttribute("loger");
+        List<AnswerResult> answerResults = homeworkanswerService.findAnswerResutByAnswerId(answerid);
+
+        model.addAttribute("answerResults",answerResults);
+
+        return "exam/teacherCommand";
     }
 
     //提交试卷
