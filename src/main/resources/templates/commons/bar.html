@@ -25,7 +25,7 @@
     <nav class="navbar navbar-header navbar-expand-md">
         <div class="container-fluid">
             <form class="navbar-left navbar-form nav-search mr-md-2" action="">
-                <td><span class="h4">考试无忧</span>  <i class="la la-flag-checkered"></i></td>
+                <td><span class="h4">作业无忧</span>  <i class="la la-flag-checkered"></i></td>
             </form>
                     <div class="row">
                         <div class="col-md-5">
@@ -109,6 +109,12 @@
                 <a class="nav-link" href="#" th:href="@{/homework/getAllHomeWork}">
                     <i class="la la-sitemap"></i>
                     <p>作业管理</p>
+                </a>
+            </li>
+            <li class="nav-item" th:class="${activeUri=='/subject/findAllSubject'?'nav-item active':'nav-item'}">
+                <a class="nav-link" href="#" th:href="@{/subject/findAllSubject}">
+                    <i class="la la-sitemap"></i>
+                    <p>课程管理</p>
                 </a>
             </li>
         </ul>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>学生作业管理系统系统后台试题页面</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="assets/css/ready.css" th:href="@{/assets/css/ready.css}">
+    <link rel="stylesheet" href="assets/css/demo.css" th:href="@{/assets/css/demo.css}">
+</head>
+<body>
+<div class="wrapper">
+    <!--header-->
+    <div th:replace="commons/bar::header"></div>
+
+    <!--slidebar-->
+    <div th:replace="commons/bar::#sidebar(activeUri='/homework/doAddHomeWork')"></div>
+
+    <!--main panel-->
+    <div class="main-panel">
+        <div class="content">
+            <div class="container-fluid">
+                <h4 class="page-title">评论一览</h4>
+                <div class="col-md-6">
+
+                        <!-- 评论一览 -->
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-head-bg-success">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">编号</th>
+                                        <th scope="col">评论标题</th>
+                                        <th scope="col">评论内容</th>
+                                        <th scope="col">身份</th>
+                                        <th scope="col">用户名</th>
+                                        <th scope="col">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="comment:${readcomments}">
+                                        <td th:text="${comment.id}"></td>
+                                        <td th:text="${comment.commentTitle}"></td>
+                                        <td th:text="${comment.commentContent}"></td>
+                                        <td th:text="${comment.commentUserType}"></td>
+                                        <td th:text="${comment.commentUserName}"></td>
+                                        <td>
+                                            <button th:attr="del_uri=@{/comment/deleteRecore/}+${comment.id}" class="btn btn-sm btn-danger deleteBtn">删除</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    <form th:action="@{/comment/addComment}" method="post">
+                        <div class="card">
+                            <div class="card-body">
+                                <input type="hidden" name="homeworkId" th:value="${homeworkId}">
+                                <div class="form-group">
+                                    <label for="commentTitle">评论标题</label>
+                                    <input type="text" class="form-control" id="commentTitle" name="commentTitle" placeholder="评论标题">
+                                </div>
+                                <div class="form-group">
+                                    <label for="commentContent">评论内容</label>
+                                    <input type="text" class="form-control" id="commentContent" name="commentContent" placeholder="评论内容">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <button class="btn btn-success" th:text="添加"></button>
+                            <a class="btn btn-info" href="#" th:href="@{/homework/getAllHomeWork}">返回</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--//删除表单-->
+<form id="deleteClasseForm" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <input type="hidden" name="homeworkId" th:value="${homeworkId}">
+</form>
+<!--footer-->
+<div th:replace="commons/bar::footer"></div>
+<script src="assets/js/core/jquery.3.2.1.min.js" th:src="@{/webjars/jquery/3.2.1/jquery.js}"></script>
+//显示密码
+<script>
+    $("#selectType").change(function () {
+        var type = $(this).children('option:selected').val();
+        if(type=="z"){
+            $("#divc").hide();
+            $("#divd").hide();
+        }
+        if(type=="x"){
+            $("#divc").hide();
+            $("#divd").hide();
+        }
+        return false;
+    })
+    //删除指定id试题
+    $(".deleteBtn").click(function () {
+        //获取uri
+        // $(this).attr("del_uri")
+        //提交表单
+        // $("#deleteClasseForm").attr("action",$(this).attr("del_uri")).submit();
+        if(confirm("确实要删除吗？")){
+            //提交表单
+            $("#deleteClasseForm").attr("action",$(this).attr("del_uri")).submit();
+            layer.msg("删除成功", {time:2000, icon:6});
+        }else {
+            layer.msg("删除取消", {time:2000, icon:5, shift:6});
+        }
+        return false;
+    });
+</script>
+
+
+</body>
+</html>

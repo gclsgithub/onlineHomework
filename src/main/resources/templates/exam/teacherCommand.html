@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"	xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>学生作业管理系统待考试卷</title>
+    <!-- Bootstrap core CSS -->
+    <link href="#" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+
+    <!--examnav-->
+    <div th:replace="commons/bar::#examnav(activeUri='/exam/toExam')"></div>
+
+    <div class="main-panel">
+        <div class="content">
+            <div class="container-fluid">
+            <h4 class="page-title">教师评价</h4>
+            <div class="col-md-6">
+
+                <!-- 评论一览 -->
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-head-bg-success">
+                            <thead>
+                            <tr>
+                                <th scope="col">编号</th>
+                                <th scope="col">教师编号</th>
+                                <th scope="col">教师评论</th>
+                                <th scope="col">给分得分</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="result:${answerResults}">
+                                <td th:text="${result.id}"></td>
+                                <td th:text="${result.teacherId}"></td>
+                                <td th:text="${result.techerCommment}"></td>
+                                <td th:text="${result.score}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--footer-->
+        <div th:replace="commons/bar::footer"></div>
+    </div> <!-- /container -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!--//删除表单-->
+    <form id="deleteClasseForm" method="post">
+        <input type="hidden" name="_method" value="delete">
+        <input type="hidden" name="homeworkId" th:value="${homeworkId}">
+    </form>
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="assets/js/core/jquery.3.2.1.min.js" th:src="@{/webjars/jquery/3.2.1/jquery.js}"></script>
+    <script>
+        //删除指定id试题
+        $(".deleteBtn").click(function () {
+            //获取uri
+            // $(this).attr("del_uri")
+            //提交表单
+            // $("#deleteClasseForm").attr("action",$(this).attr("del_uri")).submit();
+            if(confirm("确实要删除吗？")){
+                //提交表单
+                $("#deleteClasseForm").attr("action",$(this).attr("del_uri")).submit();
+                layer.msg("删除成功", {time:2000, icon:6});
+            }else {
+                layer.msg("删除取消", {time:2000, icon:5, shift:6});
+            }
+            return false;
+        });
+    </script>
+</body>
+</html>
