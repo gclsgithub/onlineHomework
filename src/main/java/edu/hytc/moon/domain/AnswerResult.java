@@ -25,7 +25,6 @@ public class AnswerResult {
 
     protected String score;
 
-
     private String deleteFlag;
 
     private LocalDateTime createTime;

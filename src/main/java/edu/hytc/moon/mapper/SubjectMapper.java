@@ -1,0 +1,41 @@
+package edu.hytc.moon.mapper;
+
+import edu.hytc.moon.domain.Subject;
+import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
+
+@Repository
+@Mapper
+public interface SubjectMapper {
+
+    @Select("SELECT id,subject_name,subject_desp,teacher_id FROM subject where delete_flag = '1' AND teacher_id = #{id} ")
+    List<Subject> findSubjectsByTeacherId(@Param("id")int id);
+
+    @Select(" SELECT "
+        + " t2.id AS id "
+        + " ,t2.subject_name AS subjectName "
+        + " ,t2.subject_desp AS subjectDesp"
+        + " ,t2.teacher_id AS teacherId"
+        + " FROM "
+            + " subject2student t1, subject t2 "
+        + " WHERE "
+            + " t1.subject_id = t2.id "
+        + " AND "
+            + " t1.delete_flag = '1' "
+        + " AND "
+            + " t2.delete_flag = '1' "
+        + " AND "
+            + " t1.student_id = #{id} ")
+    List<Subject> findSubjectsByStudentId(@Param("stuId") int id);
+
+    @Select(" SELECT  "
+        + " id "
+        + " ,subject_name "
+        + " ,subject_desp "
+        + " ,teacher_id "
+        + " FROM subject WHERE  delete_flag = '1' AND  id = #{id}")
+    Subject findSubjectById(Integer id);
+}

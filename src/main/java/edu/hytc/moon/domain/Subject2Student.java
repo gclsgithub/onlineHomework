@@ -1,18 +1,14 @@
 package edu.hytc.moon.domain;
 
 import java.time.LocalDateTime;
-import lombok.Data;
 
-@Data
-public class Subject {
+public class Subject2Student {
 
     private int id;
 
-    private String subjectName;
+    private int subjectId;
 
-    private String subjectDesp;
-
-    private int teacherId;
+    private int studentId;
 
     private String deleteFlag;
 
