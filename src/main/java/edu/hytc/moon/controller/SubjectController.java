@@ -6,9 +6,12 @@ import edu.hytc.moon.domain.Teacher;
 import edu.hytc.moon.service.StudentService;
 import edu.hytc.moon.service.SubjectService;
 import java.util.List;
+
+import edu.hytc.moon.vo.SubjectVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -49,5 +52,23 @@ public class SubjectController {
     }
 
     @RequestMapping("/doeditSubject")
+    public String doEditSubject(SubjectVo subject,HttpServletRequest request){
+        HttpSession session=request.getSession();
+        Teacher teacher = (Teacher)session.getAttribute("logerd");
+        if (!ObjectUtils.isEmpty(subject.getId())){
+            subjectService.updateSubject(subject,teacher);
+        } else{
+            subjectService.saveSubject(subject,teacher);
+        }
+
+
+        return "redirect:/subject/findAllSubject";
+    }
+
+    @RequestMapping("/addSubject")
+    public String addSubject(){
+        return "subject/editSubject";
+    }
+
 
 }

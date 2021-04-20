@@ -2,9 +2,9 @@ package edu.hytc.moon.mapper;
 
 import edu.hytc.moon.domain.Subject;
 import java.util.List;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+
+import edu.hytc.moon.vo.SubjectVo;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -38,4 +38,16 @@ public interface SubjectMapper {
         + " ,teacher_id "
         + " FROM subject WHERE  delete_flag = '1' AND  id = #{id}")
     Subject findSubjectById(Integer id);
+
+    @Insert("insert into subject(subject_name,subject_desp,teacher_id,delete_flag,create_time,create_use,update_time,update_user) VALUES(" +
+            " #{in.subjectName},#{in.subjectDesp},#{in.teacherId},'1',NOW(),#{in.createUse},NOW(),#{in.updateUser})")
+    int saveSubject(@Param("in") Subject subject);
+
+    @Update("UPDATE subject SET " +
+            " subject_name = #{in.subjectName} " +
+            " ,subject_desp = #{in.subjectDesp} " +
+            " ,update_time = NOW() " +
+            " ,update_user = #{in.updateUser}" +
+            " ,teacher_id = #{in.teacherId}")
+    int updateSubjectById(Subject subject);
 }

@@ -1,6 +1,9 @@
 package edu.hytc.moon.service;
 
 import edu.hytc.moon.domain.Subject;
+import edu.hytc.moon.domain.Teacher;
+import edu.hytc.moon.vo.SubjectVo;
+
 import java.util.List;
 
 public interface SubjectService {
@@ -13,4 +16,8 @@ public interface SubjectService {
     List<Subject> findSubjectByTeacherId(int id, boolean b);
 
     Subject findSubjectById(Integer id);
+
+    void updateSubject(SubjectVo subject, Teacher teacher);
+
+    void saveSubject(SubjectVo subject,Teacher teacher);
 }

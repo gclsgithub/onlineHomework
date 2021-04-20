@@ -23,6 +23,7 @@
         <div class="content">
             <div class="container-fluid">
                 <h4 class="page-title">课程管理</h4>
+                <button class="btn btn-success" id="addSubject">添加课程</button>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card"> </div>
@@ -83,6 +84,10 @@
             layer.msg("删除取消", {time:2000, icon:5, shift:6});
         }
         return false;
+    });
+
+    $("#addSubject").click( ()=>{
+        window.open("/subject/addSubject");
     });
 
 </script>
