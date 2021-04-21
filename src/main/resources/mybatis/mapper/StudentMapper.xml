@@ -21,6 +21,11 @@
 	<select id="queryAll" resultMap="studentResult">
 		select * from student left join classe	on student.classe_id = classe.classe_id
 	</select>
+
+	<select id="findAllByCondition" resultMap="studentResult">
+		select * from student left join classe	on student.classe_id = classe.classe_id where student_name like CONCAT("%",#{studentName},"%") and  student_account like  CONCAT("%",#{studentAccount},"%")
+	</select>
+
 	<!--根据id查询学生信息也包括班级-->
     <select id="getStudentById" resultMap="studentResult" parameterType="Integer">
 		select * from student left join classe	on student.classe_id = classe.classe_id

@@ -5,6 +5,7 @@ import edu.hytc.moon.mapper.StudentMapper;
 import edu.hytc.moon.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 @Service
@@ -46,5 +47,16 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void deleteById(Integer id) {
         studentMapper.deleteById(id);
+    }
+
+    @Override
+    public List<Student> findByCondition(String studentName, String studentAccount) {
+
+        if (!StringUtils.isEmpty(studentName) || !StringUtils.isEmpty(studentAccount)){
+            return studentMapper.findAllByCondition(studentName,studentAccount);
+        } else {
+            return studentMapper.queryAll();
+        }
+
     }
 }

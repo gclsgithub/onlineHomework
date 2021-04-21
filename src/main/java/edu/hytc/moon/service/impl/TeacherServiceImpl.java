@@ -53,4 +53,9 @@ public class TeacherServiceImpl implements TeacherService {
     public int queryCountAll() {
         return teacherMapper.queryCountAll();
     }
+
+    @Override
+    public List<Teacher> findTeacherByCondition(String teacherName, String teacherAccount) {
+        return teacherMapper.queryByConditions(teacherName,teacherAccount);
+    }
 }

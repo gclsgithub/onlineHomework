@@ -19,4 +19,6 @@ public interface StudentService {
     void EditStudent(Student student);
     //删除学生通过id
     void deleteById(Integer id);
+
+    List<Student> findByCondition(String studentName, String studentAccount);
 }

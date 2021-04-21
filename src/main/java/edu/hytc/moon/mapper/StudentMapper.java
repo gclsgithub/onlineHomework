@@ -3,6 +3,7 @@ package edu.hytc.moon.mapper;
 import edu.hytc.moon.domain.Student;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
@@ -26,4 +27,6 @@ public interface StudentMapper {
 
     @Delete("delete from student where student_id=#{id}")
     void deleteById(Integer id);
+
+    List<Student> findAllByCondition(@Param("studentName") String studentName, @Param("studentAccount")String studentAccount);
 }

@@ -34,6 +34,25 @@ public class TeacherController {
         model.addAttribute("teachers",teachers);
         return "teacher/teacherList";
     }
+
+    //查看所有教师
+    @RequestMapping("/findTeacherByCondition")
+    public String findTeacherByCondition(Model model,Teacher teacher){
+
+        //查找classe表中已存在的教师，将用于表单教师是否可以删除
+        List<Teacher> teachers=teacherService.findTeacherByCondition(teacher.getTeacherName(),teacher.getTeacherAccount());
+
+        List<Classe> classes=classeService.queryAllTeacherId();
+        List<Integer> teaId=new ArrayList<>();
+        for(Classe cla:classes){
+            teaId.add(cla.getTeacherId());
+        }
+        model.addAttribute("teaId",teaId);
+        model.addAttribute("teachers",teachers);
+        model.addAttribute("teacherName",teacher.getTeacherName());
+        model.addAttribute("teacherAccount",teacher.getTeacherAccount());
+        return "teacher/teacherList";
+    }
     //教师添加或者修改操作，先去添加页面
     @RequestMapping("/toAddTeacher")
     public String toAddTeacher(){

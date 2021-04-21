@@ -28,11 +28,13 @@ public class StudentController {
         return "student/studentList";
     }
 
-    //查看所有学生
-    @RequestMapping("/getAllStudent")
+    //按照条件检索
+    @RequestMapping("/findStudetByCondition")
     public String getStudentByCondition(Model model,Student student){
-        List<Student> students = studentService.getAll();
+        List<Student> students = studentService.findByCondition(student.getStudentName(),student.getStudentAccount());
         model.addAttribute("students",students);
+        model.addAttribute("studentName",student.getStudentName());
+        model.addAttribute("studentAccount",student.getStudentAccount());
         return "student/studentList";
     }
 

@@ -2,6 +2,7 @@ package edu.hytc.moon.mapper;
 
 import edu.hytc.moon.domain.Teacher;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
@@ -25,4 +26,6 @@ public interface TeacherMapper {
     Teacher check(Teacher teacher);
     @Select("select count(*) from teacher")
     int queryCountAll();
+
+    List<Teacher> queryByConditions(@Param("teacherName") String teacherName,@Param("teacherAccount") String teacherAccount);
 }

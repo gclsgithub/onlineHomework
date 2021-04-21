@@ -21,4 +21,6 @@ public interface TeacherService {
     Teacher check(Teacher teacher);
     //统计总教师数
     int queryCountAll();
+
+    List<Teacher> findTeacherByCondition(String teacherName, String teacherAccount);
 }

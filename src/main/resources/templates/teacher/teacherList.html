@@ -22,6 +22,25 @@
         <div class="content">
             <div class="container-fluid">
                 <h4 class="page-title">教师管理页面</h4>
+
+                <form th:action="@{/teacher/findTeacherByCondition}" method="post">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="teacherName">姓名</label>
+                                <input th:value="${teacherName}" type="text" class="form-control" id="teacherName" name="teacherName" placeholder="老师姓名">
+                            </div>
+                            <div class="form-group">
+                                <label for="teacherAccount">账号</label>
+                                <input th:value="${teacherAccount}" type="text" class="form-control" id="teacherAccount" name="teacherAccount" placeholder="老师账号">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn btn-success" th:text="查找"></button>
+                    </div>
+                </form>
+
                 <div class="row">
                     <div class="col-md-12">
                         <div><h2><a class="btn btn-success" href="emp" th:href="@{/teacher/toAddTeacher}">教师添加</a></h2> </div>
