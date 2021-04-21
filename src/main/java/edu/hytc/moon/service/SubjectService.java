@@ -17,7 +17,9 @@ public interface SubjectService {
 
     Subject findSubjectById(Integer id);
 
-    void updateSubject(SubjectVo subject, Teacher teacher);
+    int updateSubject(SubjectVo subject, Teacher teacher);
 
-    void saveSubject(SubjectVo subject,Teacher teacher);
+    int saveSubject(SubjectVo subject,Teacher teacher);
+
+    int deleteSubject(Integer id);
 }

@@ -32,6 +32,7 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">编号</th>
+                                        <th scope="col">课程名</th>
                                         <th scope="col">作业标题</th>
                                         <th scope="col">作业内容</th>
                                         <th scope="col">操作</th>
@@ -40,6 +41,7 @@
                                     <tbody>
                                     <tr th:each="homwork:${homeWorks}">
                                         <td th:text="${homwork.id}"></td>
+                                        <td th:text="${homwork.subjectName}"></td>
                                         <td th:text="${homwork.homeWorkTitle}"></td>
                                         <td th:text="${homwork.homeWorkContent}"></td>
                                         <td>

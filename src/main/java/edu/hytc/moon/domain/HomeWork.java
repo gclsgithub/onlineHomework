@@ -37,4 +37,10 @@ public class HomeWork {
     private String inResultScore;
 
     private String inType;
+
+    private String subjectId;
+
+    private String subjectName;
+
+    private int saveSubjectId;
 }

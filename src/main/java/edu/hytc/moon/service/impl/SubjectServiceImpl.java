@@ -34,21 +34,21 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public void updateSubject(SubjectVo subjectvo, Teacher teacher) {
+    public int updateSubject(SubjectVo subjectvo, Teacher teacher) {
         Subject subject = new Subject();
         BeanUtils.copyProperties(subjectvo,subject);
 
-        subject.setId(Integer.parseInt(subjectvo.getSubjectDesp()));
+        subject.setId(Integer.parseInt(subjectvo.getId()));
 
         subject.setTeacherId(teacher.getTeacherId());
         subject.setCreateUse(teacher.getTeacherId());
         subject.setUpdateUser(teacher.getTeacherId());
 
-        subjectMapper.updateSubjectById(subject);
+        return subjectMapper.updateSubjectById(subject);
     }
 
     @Override
-    public void saveSubject(SubjectVo subjectvo,Teacher teacher) {
+    public int saveSubject(SubjectVo subjectvo,Teacher teacher) {
 
         Subject subject = new Subject();
         BeanUtils.copyProperties(subjectvo,subject);
@@ -57,7 +57,12 @@ public class SubjectServiceImpl implements SubjectService {
         subject.setCreateUse(teacher.getTeacherId());
         subject.setUpdateUser(teacher.getTeacherId());
 
-        subjectMapper.saveSubject(subject);
+        return subjectMapper.saveSubject(subject);
+    }
+
+    @Override
+    public int deleteSubject(Integer id) {
+        return subjectMapper.deleteSubject(id);
     }
 
 

@@ -4,10 +4,12 @@ import edu.hytc.moon.domain.*;
 import edu.hytc.moon.service.CommentService;
 import edu.hytc.moon.service.HomeWorkService;
 import edu.hytc.moon.service.HomeworkanswerService;
+import edu.hytc.moon.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ResourceUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +38,10 @@ public class HomeWorkController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private SubjectService subjectService;
+
+
     //获取所有记录
     @RequestMapping("/getAllHomeWork")
     public String getAllRecord(Model model, HttpServletRequest request){
@@ -45,6 +51,7 @@ public class HomeWorkController {
         Teacher teacher = (Teacher)session.getAttribute("logerd");
 
         List<HomeWork> homeWorks=homeWorkService.findByOwnerId(teacher.getTeacherId());
+
         model.addAttribute("homeWorks",homeWorks);
         return "homework/HomeWorkList";
     }
@@ -67,6 +74,16 @@ public class HomeWorkController {
     //跳转到新增
     @RequestMapping("/addHomeWork")
     public String addHomeWork(Model model, HttpServletRequest request){
+
+        //查找出这个老师所有任课
+        HttpSession session=request.getSession();
+
+        Teacher teacher = (Teacher)session.getAttribute("logerd");
+
+        List<Subject> subjects = subjectService.findSubjectByTeacherId(teacher.getTeacherId(),true);
+
+        model.addAttribute("subjects",subjects);
+
         return "homework/AddHomeWork";
     }
 
@@ -134,6 +151,7 @@ public class HomeWorkController {
         Teacher teacher = (Teacher)session.getAttribute("logerd");
         homeWork.setUpdateUser(teacher.getTeacherId());
         homeWork.setCreateUse(teacher.getTeacherId());
+        homeWork.setSaveSubjectId(Integer.parseInt(homeWork.getSubjectId()));
 
         homeWorkService.saveHomeWorkInfo(homeWork);
 

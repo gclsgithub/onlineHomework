@@ -1,22 +1,18 @@
 package edu.hytc.moon.controller;
 
-import edu.hytc.moon.domain.Student;
 import edu.hytc.moon.domain.Subject;
 import edu.hytc.moon.domain.Teacher;
-import edu.hytc.moon.service.StudentService;
 import edu.hytc.moon.service.SubjectService;
-import java.util.List;
-
 import edu.hytc.moon.vo.SubjectVo;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/subject")
@@ -46,7 +42,7 @@ public class SubjectController {
         Subject subject = subjectService.findSubjectById(id);
 
         model.addAttribute("subjectName",subject.getSubjectName());
-        model.addAttribute("subjectDesp",subject.getSubjectName());
+        model.addAttribute("subjectDesp",subject.getSubjectDesp());
 
         return "subject/editSubject";
     }
@@ -60,8 +56,6 @@ public class SubjectController {
         } else{
             subjectService.saveSubject(subject,teacher);
         }
-
-
         return "redirect:/subject/findAllSubject";
     }
 
@@ -70,5 +64,12 @@ public class SubjectController {
         return "subject/editSubject";
     }
 
+
+    @RequestMapping("/deleteSubject/{id}")
+    public String deleteSubject(@PathVariable("id") Integer id){
+
+        subjectService.deleteSubject(id);
+        return "redirect:/subject/findAllSubject";
+    }
 
 }

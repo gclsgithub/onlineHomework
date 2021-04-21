@@ -34,6 +34,12 @@
                                     <label for="homeWorkContent">作业内容</label>
                                     <input type="text" class="form-control" id="homeWorkContent" name="homeWorkContent" placeholder="作业内容">
                                 </div>
+                                <div class="form-group">
+                                    <label for="homeWorkContent">课程选择</label>
+                                    <select class="monmust form-control" name="subjectId">
+                                        <option th:each="sub:${subjects}" th:text="${sub.subjectName}" th:value="${sub.id}"></option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="card-action">
@@ -53,6 +59,7 @@
 <script src="assets/js/core/jquery.3.2.1.min.js" th:src="@{/webjars/jquery/3.2.1/jquery.js}"></script>
 //显示密码
 <script>
+
     $("#selectType").change(function () {
         var type = $(this).children('option:selected').val();
         if(type=="z"){

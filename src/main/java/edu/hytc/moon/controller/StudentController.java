@@ -19,9 +19,18 @@ public class StudentController {
     private ClasseMapper classeMapper;
     @Autowired
     private StudentService studentService;
-//查看所有学生
+
+    //查看所有学生
     @RequestMapping("/getAllStudent")
     public String getAllStudent(Model model){
+        List<Student> students = studentService.getAll();
+        model.addAttribute("students",students);
+        return "student/studentList";
+    }
+
+    //查看所有学生
+    @RequestMapping("/getAllStudent")
+    public String getStudentByCondition(Model model,Student student){
         List<Student> students = studentService.getAll();
         model.addAttribute("students",students);
         return "student/studentList";

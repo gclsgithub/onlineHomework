@@ -28,21 +28,31 @@ public interface HomeWorkMapper {
     HomeWork findById(int homeworkId);
 
     @Select("SELECT " +
-            "id" +
-            ",home_work_title as homeWorkTitle" +
-            ",home_work_content as homeWorkContent" +
-            ",home_work_filePath as  homeWorkFilePath" +
-            ",home_work_status as homeWorkStatus" +
-            ",class_id as classId" +
-//            ",create_time as  createTime" +
-            ",create_use as  createUse " +
-//            ",update_time as  updateTime " +
-            ",update_user as updateUser" +
-            " from homework where update_user = #{teacherId} AND delete_flag = 1")
+            "t1.id" +
+            ",t1.home_work_title as homeWorkTitle" +
+            ",t1.home_work_content as homeWorkContent" +
+            ",t1.home_work_filePath as  homeWorkFilePath" +
+            ",t1.home_work_status as homeWorkStatus" +
+            ",t1.class_id as classId" +
+            ",t1.create_use as  createUse " +
+            ",t1.update_user as updateUser" +
+            ",t3.subject_name subjectName" +
+            " from homework t1 " +
+            " LEFT JOIN subject2homework t2 ON t1.id = t2.homework_id " +
+            " LEFT JOIN subject t3 ON t2.subject_id = t3.id "
+        + " where "
+        + " t1.update_user = #{teacherId} "
+        + " AND "
+        + " t1.delete_flag = 1 "
+        + " AND"
+        + " t2.delete_flag = 1 "
+        + " AND"
+        + " t3.delete_flag = 1 ")
     List<HomeWork> findByOwnerId(@Param("teacherId") int teacherId);
 
     @Insert("insert into homework (home_work_title,home_work_content,home_work_filePath,home_work_status,delete_flag,class_id,create_time,create_use,update_time,update_user) " +
                          "values  (#{info.homeWorkTitle},#{info.homeWorkContent},'','0','1',#{info.classId},NOW(),#{info.createUse},NOW(),#{info.updateUser})")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     int saveHomeWork(@Param("info") HomeWork homeWork);
 
     @Update("update homework set delete_flag = 0 where id = #{homeworkId}")
