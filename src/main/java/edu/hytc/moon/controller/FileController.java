@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import java.io.IOException;
 public class FileController {
 
     @RequestMapping("/filedownload")
+    @ResponseBody
     public void download (@RequestParam("path") String path , HttpServletResponse response) throws FileNotFoundException {
 
         System.out.println(path);
@@ -39,5 +41,9 @@ public class FileController {
         }
         IOUtils.closeQuietly(fis);
         IOUtils.closeQuietly(os);
+
+        response.setHeader("content-type", "application/octet-stream");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment;filename=" + "myfile");
     }
 }

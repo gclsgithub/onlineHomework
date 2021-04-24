@@ -95,7 +95,7 @@
                             <td th:text="${answer.id}"></td>
                             <td th:text="${answer.answerTitle}"></td>
                             <td th:text="${answer.answerContent}"></td>
-                            <td> <a th:href="@{/filedownload?path=}+${answer.homeWorkFilePath}">文件下载</a></td>
+                            <td> <a th:href="@{/filedownload?path=}+${answer.homeWorkFilePath}" target="_blank">文件下载</a></td>
                             <td>
                                 <button th:attr="del_uri=@{/answer/deleteRecorest/}+${answer.id}" class="btn btn-sm btn-danger deleteBtn">删除</button>
                                 <button th:attr="send_uri=@{/exam/teachaercomment/}+${answer.id}" class="btn btn-sm btn-default pingjia">查看评价</button>
