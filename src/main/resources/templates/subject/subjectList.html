@@ -39,8 +39,8 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="sub:${subjects}">
-                                        <td th:text="${sub.id}"></td>
+                                    <tr th:each="sub,ras:${subjects}">
+                                        <td th:text="${ras.count}"></td>
                                         <td th:text="${sub.subjectName}"></td>
                                         <td th:text="${sub.subjectDesp}"></td>
                                         <td>
