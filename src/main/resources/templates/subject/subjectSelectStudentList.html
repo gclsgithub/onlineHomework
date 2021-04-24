@@ -22,8 +22,8 @@
     <div class="main-panel">
         <div class="content">
             <div class="container-fluid">
-                <h4 class="page-title">课程管理</h4>
-                <button class="btn btn-success" id="addSubject">添加课程</button>
+                <h4 class="page-title">选课管理</h4>
+                <button class="btn btn-success" id="addStudent">添加学生</button>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card"> </div>
@@ -32,23 +32,17 @@
                                 <table class="table table-head-bg-success">
                                     <thead>
                                     <tr>
-                                        <th scope="col">课程编号</th>
-                                        <th scope="col">课程名</th>
-                                        <th scope="col">课程描述</th>
+                                        <th scope="col">学生编号</th>
+                                        <th scope="col">学生名</th>
                                         <th scope="col">操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="sub:${subjects}">
-                                        <td th:text="${sub.id}"></td>
-                                        <td th:text="${sub.subjectName}"></td>
-                                        <td th:text="${sub.subjectDesp}"></td>
+                                    <tr th:each="stu:${findSelectedStudent}">
+                                        <td th:text="${stu.studentId}"></td>
+                                        <td th:text="${stu.studentName}"></td>
                                         <td>
-                                            <u th:if="${session.logerd.teacherId==sub.teacherId}">
-                                                <a class="btn btn-sm btn-info" th:href="@{/subject/editSubject/}+${sub.id}">编辑</a>
-                                                <a class="btn btn-sm btn-info" th:href="@{/subject/findSelectStudent/}+${sub.id}">选课查询</a>
-                                                <button th:attr="del_uri=@{/subject/deleteSubject/}+${sub.id}" class="btn btn-sm btn-danger deleteBtn">删除</button>
-                                            </u>
+                                            <button th:attr="del_uri=@{/subject/deleteStudentReated/}+${stu.studentId}" class="btn btn-sm btn-danger deleteBtn">删除</button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -64,7 +58,13 @@
 </div>
 </div>
 <form id="deleteTeacherForm" method="post">
+    <input type="hidden" name="subjectId" th:value="${subId}">
     <input type="hidden" name="_method" value="delete">
+</form>
+
+<form id="addrelation" method="post">
+    <input type="hidden" name="subjectId" th:value="${subId}">
+    <input type="hidden" name="_method" value="jump">
 </form>
 <!--映入jquery，src-->
 <script src="assets/js/core/jquery.3.2.1.min.js" th:src="@{/webjars/jquery/3.2.1/jquery.js}"></script>
@@ -86,8 +86,8 @@
         return false;
     });
 
-    $("#addSubject").click( ()=>{
-        window.open("/subject/addSubject");
+    $("#addStudent").click( ()=>{
+        $("#addrelation").attr("action","/subject/toRelation").submit();
     });
 
 </script>

@@ -1,5 +1,6 @@
 package edu.hytc.moon.mapper;
 
+import edu.hytc.moon.domain.Student;
 import edu.hytc.moon.domain.Subject;
 import java.util.List;
 
@@ -58,4 +59,30 @@ public interface SubjectMapper {
         " where "+
         " id = #{id}")
     int deleteSubject(@Param("id") Integer id);
+
+    @Select(" SELECT " +
+            " t1.student_id " +
+            " ,t1.student_name " +
+            " FROM student t1 , subject2student t2 " +
+            " where " +
+            "  t1.student_id = t2.student_id " +
+            " AND " +
+            " t2.subject_id = #{id} " +
+            " AND " +
+            " t2.delete_flag = '1'")
+    List<Student> findStudnetInfoBySubjectId(@Param("id") Integer subjectId);
+
+
+    @Update("UPDATE subject2student SET delete_flag = '0' " +
+            " WHERE " +
+            " subject_id = #{subjectId} " +
+            " AND student_id = #{studentId} ")
+    int delteReations (@Param("studentId")Integer studentId,@Param("subjectId")Integer subjectId);
+
+    @Insert(" INSERT  INTO subject2student(subject_id,student_id,delete_flag,create_time,create_use,update_time,update_user)" +
+            " VALUES(#{subjetcId},#{studentId},'1',NOW(),#{teacherId},NOW(),#{teacherId}) ")
+    void addRelation(@Param("subjetcId") int subjetcId, @Param("studentId") int studentId,@Param("teacherId") int teacherId);
+
+    @Select("SELECT count(id) from subject2student where subject_id = #{subjetcId} AND student_id = #{studentId} AND delete_flag = '1'")
+    int findStudnetInfoBySubjectIdAndStudentId(int subjetcId, int studentId);
 }

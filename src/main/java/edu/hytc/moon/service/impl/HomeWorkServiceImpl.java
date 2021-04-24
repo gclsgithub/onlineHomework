@@ -78,4 +78,12 @@ public class HomeWorkServiceImpl implements HomeWorkService {
     public int queryCountAllPas() {
         return homeWorkMapper.qurrayALl();
     }
+
+    @Override
+    public List<HomeWork> getHomeWorkByStudentId(Integer studentId) {
+        Student student = studentService.getStudentById(studentId);
+        List<HomeWork>  homeWorkList = homeWorkMapper.findHomeWorkByStudentId(studentId,student.getClasse());
+
+        return homeWorkList;
+    }
 }

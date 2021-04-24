@@ -1,8 +1,11 @@
 package edu.hytc.moon.controller;
 
+import edu.hytc.moon.domain.Student;
 import edu.hytc.moon.domain.Subject;
 import edu.hytc.moon.domain.Teacher;
+import edu.hytc.moon.service.StudentService;
 import edu.hytc.moon.service.SubjectService;
+import edu.hytc.moon.vo.StudentFindVo;
 import edu.hytc.moon.vo.SubjectVo;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +23,11 @@ public class SubjectController {
 
     @Autowired
     private SubjectService subjectService;
+
+    @Autowired
+    private StudentService studentService;
+
+
 
 
     @RequestMapping("/findAllSubject")
@@ -64,11 +72,45 @@ public class SubjectController {
         return "subject/editSubject";
     }
 
+    @RequestMapping("/toRelation")
+    public String toRelation(Model model,StudentFindVo studentFindVo){
+        List<Student> students  =studentService.getAll();
+        model.addAttribute("subId",studentFindVo.getSubjectId());
+        model.addAttribute("students",students);
+        return "subject/addReationt";
+    }
+
+    @RequestMapping("/doAddreation")
+    public String doAddreation(Model model,StudentFindVo studentFindVo,HttpServletRequest request){
+        HttpSession session=request.getSession();
+
+        //maanag
+//        Student student = (Student)session.getAttribute("loger");
+        Teacher teacher = (Teacher)session.getAttribute("logerd");
+        subjectService.addRelation(Integer.parseInt(studentFindVo.getSubjectId()),Integer.parseInt(studentFindVo.getStudentId()),teacher.getTeacherId());
+        return "redirect:/subject/findAllSubject";
+    }
+
+    @RequestMapping("/findSelectStudent/{id}")
+    public String findSelectStudent(@PathVariable("id") Integer subjectId,Model model){
+        List<StudentFindVo> findSelectedStudent = subjectService.findStudnetBySubjectId(subjectId);
+        model.addAttribute("findSelectedStudent",findSelectedStudent);
+        model.addAttribute("subId",subjectId);
+        return "subject/subjectSelectStudentList";
+    }
+
 
     @RequestMapping("/deleteSubject/{id}")
     public String deleteSubject(@PathVariable("id") Integer id){
 
         subjectService.deleteSubject(id);
+        return "redirect:/subject/findAllSubject";
+    }
+
+    @RequestMapping("/deleteStudentReated/{id}")
+    public String deleteStudentReated(@PathVariable("id") Integer studentId,StudentFindVo studentFindVo){
+
+        subjectService.deleteRalations(studentId,studentFindVo.getSubjectId());
         return "redirect:/subject/findAllSubject";
     }
 

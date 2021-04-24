@@ -19,4 +19,6 @@ public interface HomeWorkService {
     void deleteHomeWork(Integer homeworkId);
 
     int queryCountAllPas();
+
+    List<HomeWork> getHomeWorkByStudentId(Integer studentId);
 }

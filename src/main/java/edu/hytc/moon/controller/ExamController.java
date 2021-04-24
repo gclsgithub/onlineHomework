@@ -48,7 +48,7 @@ public class ExamController {
     //前台跳转
     @RequestMapping("/toHomeWork/{id}")
     public String toHomeWork(@PathVariable ("id") Integer studentId,Model model){
-        List<HomeWork> homeworks = homeWorkService.getAll(studentId);
+        List<HomeWork> homeworks = homeWorkService.getHomeWorkByStudentId(studentId);
         model.addAttribute("homeworks",homeworks);
         return "exam/homeworklist";
     }

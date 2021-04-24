@@ -1,5 +1,6 @@
 package edu.hytc.moon.mapper;
 
+import edu.hytc.moon.domain.Classe;
 import edu.hytc.moon.domain.HomeWork;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -60,4 +61,30 @@ public interface HomeWorkMapper {
 
     @Select("SELECT count(id) FROM  homework where delete_flag = 1")
     int qurrayALl();
+
+    @Select("select " +
+            "t1.id" +
+            ",t1.home_work_title as homeWorkTitle" +
+            ",t1.home_work_content as homeWorkContent" +
+            ",t1.home_work_filePath as  homeWorkFilePath" +
+            ",t1.home_work_status as homeWorkStatus" +
+            ",t1.class_id as classId" +
+//            ",create_time as  createTime" +
+            ",t1.create_use as  createUse " +
+//            ",update_time as  updateTime " +
+            ",t1.update_user as updateUser" +
+            ", t2.teacher_name as createUseName " +
+            "from " +
+            " homework t1 " +
+            " ,teacher t2 " +
+            " ,subject2homework t3" +
+            " , ( SELECT subject_id FROM  subject2student where student_id = #{studentId} AND delete_flag = '1') t4" +
+            " where t1.delete_flag = 1 AND t1.create_use = t2.teacher_id " +
+            " AND " +
+            "   t3.homework_id = t1.id " +
+            " AND " +
+            "   t3.subject_id = t4.subject_id " +
+            " AND " +
+            "  t3.delete_flag  = '1' ")
+    List<HomeWork> findHomeWorkByStudentId(Integer studentId, Classe classe);
 }
