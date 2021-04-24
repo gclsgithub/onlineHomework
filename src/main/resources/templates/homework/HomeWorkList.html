@@ -39,8 +39,8 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="homwork:${homeWorks}">
-                                        <td th:text="${homwork.id}"></td>
+                                    <tr th:each="homwork,ras:${homeWorks}">
+                                        <td th:text="${ras.count}"></td>
                                         <td th:text="${homwork.subjectName}"></td>
                                         <td th:text="${homwork.homeWorkTitle}"></td>
                                         <td th:text="${homwork.homeWorkContent}"></td>

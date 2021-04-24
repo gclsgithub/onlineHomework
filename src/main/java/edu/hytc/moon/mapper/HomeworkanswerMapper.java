@@ -11,18 +11,22 @@ import java.util.List;
 public interface HomeworkanswerMapper {
 
     @Select(" SELECT " +
-            "   id as id" +
-            " , homework_id as homeworkId" +
-            " , student_id as studentId" +
-            " , answer_title as answerTitle" +
-            " , answer_content  as answerContent" +
-            " , home_work_filePath as homeWorkFilePath" +
-            " , delete_flag as deleteFlag" +
-            " , class_id as classId" +
+            "   t1.id as id" +
+            " , t1.homework_id as homeworkId" +
+            " , t1.student_id as studentId" +
+            " , t1.answer_title as answerTitle" +
+            " , t1.answer_content  as answerContent" +
+            " , t1.home_work_filePath as homeWorkFilePath" +
+            " , t1.delete_flag as deleteFlag" +
+            " , t1.class_id as classId" +
+            " , t2.student_name as studentName" +
             " FROM" +
-            "      homeworkanswer"+
+            "      homeworkanswer t1" +
+            " LEFT JOIN student t2" +
+            " ON" +
+            " t1.student_id = t2.student_id " +
             " WHERE" +
-            "      delete_flag = 1" +
+            "      delete_flag = 1 " +
             " AND " +
             "      homework_id = #{homeworkId}")
     List<HomeWorkAnswer> findHomeWorkAnswerByHomeWorkId(@Param("homeworkId") Integer homeworkId);

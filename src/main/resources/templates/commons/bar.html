@@ -117,6 +117,12 @@
                     <p>课程管理</p>
                 </a>
             </li>
+            <li class="nav-item" th:class="${activeUri=='/info/findAllInfo'?'nav-item active':'nav-item'}">
+                <a class="nav-link" href="#" th:href="@{/info/findAllInfo}">
+                    <i class="la la-slack"></i>
+                    <p>公告管理</p>
+                </a>
+            </li>
         </ul>
     </div>
 </div>
@@ -151,6 +157,7 @@
         <a class="btn btn-info" th:class="${activeUri=='/exam/toExam'?'btn btn-warning':'btn btn-info'}" th:href="@{/exam/toExam}">考试</a>
         <a class="btn btn-info" th:class="${activeUri=='/exam/toExam'?'btn btn-warning':'btn btn-info'}" th:href="@{/exam/toHomeWork/}+${session.loger.studentId}">作业</a>
         <a class="btn btn-info" th:class="${activeUri=='/exam/toHist'?'btn btn-warning':'btn btn-info'}" th:href="@{/exam/toHist/}+${session.loger.studentId}">记录</a>
+        <a class="btn btn-info" th:class="${activeUri=='/exam/toinfo'?'btn btn-warning':'btn btn-info'}" th:href="@{/exam/toinfo}">公告</a>
     </nav>
     <div class="col-md-1">
         <a class="btn btn-outline-warning" href="#">用户</a>

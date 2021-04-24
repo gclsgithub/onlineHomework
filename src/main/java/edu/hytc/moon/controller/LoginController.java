@@ -1,10 +1,7 @@
 package edu.hytc.moon.controller;
 
+import edu.hytc.moon.domain.*;
 import edu.hytc.moon.domain.Record;
-import edu.hytc.moon.domain.AjaxResult;
-import edu.hytc.moon.domain.Classe;
-import edu.hytc.moon.domain.Student;
-import edu.hytc.moon.domain.Teacher;
 import edu.hytc.moon.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +30,9 @@ public class LoginController {
 
     @Autowired
     private HomeWorkService homeWorkService;
+
+
+
     @RequestMapping("/")
     public String view(Model model){
         //查询所有用户
@@ -44,6 +44,7 @@ public class LoginController {
         //统计试卷
         int allPaps=paperService.queryCountALlPaps();
         int homeworkCount = homeWorkService.queryCountAllPas();
+
         model.addAttribute("allPaps",allPaps);
         model.addAttribute("allQues",allQues);
         model.addAttribute("alllogers",alllogers);

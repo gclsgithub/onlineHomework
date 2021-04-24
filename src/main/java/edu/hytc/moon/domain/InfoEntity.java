@@ -5,23 +5,12 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class HomeWorkAnswer {
+public class InfoEntity {
 
     private int id;
-
-    private int homeworkId;
-
-    private int studentId;
-
-    private String answerTitle;
-
-    private String answerContent;
-
-    protected String homeWorkFilePath;
-
+    private String title;
+    private String content;
     private String deleteFlag;
-
-    private int  classId;
 
     private LocalDateTime createTime;
 
@@ -34,5 +23,4 @@ public class HomeWorkAnswer {
     private int updateUser;
 
     private String updateUserName;
-    private String studentName;
 }

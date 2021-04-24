@@ -38,8 +38,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="comment:${readcomments}">
-                                    <td th:text="${comment.id}"></td>
+                                <tr th:each="comment,ras:${readcomments}">
+                                    <td th:text="${ras.count}"></td>
                                     <td th:text="${comment.commentTitle}"></td>
                                     <td th:text="${comment.commentContent}"></td>
                                     <td th:text="${comment.commentUserType}"></td>
@@ -91,8 +91,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="answer:${homeWorkAnswers}">
-                            <td th:text="${answer.id}"></td>
+                        <tr th:each="answer,ras:${homeWorkAnswers}">
+                            <td th:text="${ras.count}"></td>
                             <td th:text="${answer.answerTitle}"></td>
                             <td th:text="${answer.answerContent}"></td>
                             <td> <a th:href="@{/filedownload?path=}+${answer.homeWorkFilePath}" target="_blank">文件下载</a></td>

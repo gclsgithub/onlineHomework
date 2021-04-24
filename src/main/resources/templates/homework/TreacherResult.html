@@ -38,8 +38,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="result:${answerResults}">
-                                    <td th:text="${result.id}"></td>
+                                <tr th:each="result,ras:${answerResults}">
+                                    <td th:text="${ras.count}"></td>
                                     <td th:text="${result.teacherId}"></td>
                                     <td th:text="${result.techerCommment}"></td>
                                     <td th:text="${result.score}"></td>

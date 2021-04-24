@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>学生作业管理系统后台学生页面</title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport'/>
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+  <link rel="stylesheet" href="assets/css/ready.css" th:href="@{/assets/css/ready.css}">
+  <link rel="stylesheet" href="assets/css/demo.css" th:href="@{/assets/css/demo.css}">
+</head>
+<body>
+<div class="wrapper">
+
+  <!--header-->
+  <div th:replace="commons/bar::header"></div>
+
+  <!--slidebar-->
+  <div th:replace="commons/bar::#sidebar(activeUri='/info/findAllInfo')"></div>
+
+  <!--main panel-->
+  <div class="main-panel">
+    <div class="content">
+      <div class="container-fluid">
+        <h4 class="page-title">查找通知</h4>
+        <div class="row">
+          <div class="col-md-12">
+
+            <form th:action="@{/info/findInfoByCondition}" method="post">
+              <div class="card">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="title">通知名</label>
+                    <input th:value="${title}" type="text" class="form-control" id="title" name="title" placeholder="通知标题">
+                  </div>
+                </div>
+              </div>
+              <div class="card-action">
+                <button class="btn btn-success" th:text="查找"></button>
+              </div>
+            </form>
+
+            <div class="card">
+              <div class="card-body">
+                <button id="addInfo" class="btn btn-sm btn-default">添加</button>
+                <table class="table table-head-bg-success">
+                  <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">通知名</th>
+                    <th scope="col">操作</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr th:each="info:${infos}">
+                    <td th:text="${info.id}"></td>
+                    <td th:text="${info.title}"></td>
+                    <td>
+                        <a class="btn btn-sm btn-info" th:href="@{/info/toeditInfo/}+${info.id}">编辑</a>
+                        <button th:attr="del_uri=@{/info/deleteInfo/}+${info.id}" class="btn btn-sm btn-danger deleteBtn">删除</button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--footer-->
+    <div th:replace="commons/bar::footer"></div>
+  </div>
+</div>
+<form id="deleteTeacherForm" method="post">
+  <input type="hidden" name="_method" value="delete">
+</form>
+<!--映入jquery，src-->
+<script src="assets/js/core/jquery.3.2.1.min.js" th:src="@{/webjars/jquery/3.2.1/jquery.js}"></script>
+<script th:src="@{/webjars/layer/src/layer.js}"></script>
+<script>
+    //删除指定id教师
+    $(".deleteBtn").click(function () {
+        //获取uri
+        // $(this).attr("del_uri")
+        //提交表单
+        // $("#deleteTeacherForm").attr("action",$(this).attr("del_uri")).submit();
+        if (confirm("确实要删除吗？")) {
+            //提交表单
+            $("#deleteTeacherForm").attr("action", $(this).attr("del_uri")).submit();
+            layer.msg("删除成功", {time: 2000, icon: 6});
+        } else {
+            layer.msg("删除取消", {time: 2000, icon: 5, shift: 6});
+        }
+        return false;
+    });
+
+    $("#addInfo").click(function (){
+      window.open("/info/toaddInfo/");
+    })
+
+</script>
+</body>
+</html>

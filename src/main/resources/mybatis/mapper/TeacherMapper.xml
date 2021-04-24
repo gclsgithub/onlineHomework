@@ -9,11 +9,14 @@
 	</select>
 
 	<select id="queryByConditions" resultType="edu.hytc.moon.domain.Teacher">
-		select * from teacher where  1 = 1
-       AND
-			teacher_name like concat("%",#{teacherName},"%")
-	  OR
-			teacher_account   like concat("%",#{teacherAccount},"%")
+		select *
+		from teacher
+		where 1 = 1
+		  AND (
+				teacher_name like concat("%", #{teacherName}, "%")
+				OR
+				teacher_account like concat("%", #{teacherAccount}, "%")
+			)
 	</select>
 
 	<!--查询不是班主任得教师-->

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"	xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>学生作业管理系统</title>
+    <!-- Bootstrap core CSS -->
+    <link href="#" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+
+    <!--examnav-->
+    <div th:replace="commons/bar::#examnav(activeUri='/exam/toinfo')"></div>
+
+    <div class="row">
+        <div class="col-xs-6 col-lg-4" th:each="info:${infos}">
+            <h2 th:text="'公告标题:'+${info.title}"></h2>
+            <h6 th:text="'公告内容:'+${info.content}"></h6>
+        </div><!--/.col-xs-6.col-lg-4-->
+
+    </div>
+
+    <!--footer-->
+    <div th:replace="commons/bar::footer"></div>
+</div> <!-- /container -->
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>

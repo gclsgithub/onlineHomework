@@ -34,8 +34,12 @@ public class ExamController {
 
     @Autowired
     private PaperService paperService;
+
     @Autowired
     private RecordService recordService;
+
+    @Autowired
+    private InfoService infoService;
 
     //前台跳转
     @RequestMapping("/toExam")
@@ -43,6 +47,14 @@ public class ExamController {
         List<Exam> Exams = examService.getAll();
         model.addAttribute("Exams",Exams);
         return "exam/examplan";
+    }
+
+    //前台跳转
+    @RequestMapping("/toinfo")
+    public String toinfo(Model model){
+        List<InfoEntity> infos = infoService.findALlInfos();
+        model.addAttribute("infos",infos);
+        return "exam/infoList";
     }
 
     //前台跳转
