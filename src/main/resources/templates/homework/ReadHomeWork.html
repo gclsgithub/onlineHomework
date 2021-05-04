@@ -42,7 +42,7 @@
                             <td th:text="${answer.studentName}"></td>
                             <td> <a th:href="@{/filedownload?path=}+${answer.homeWorkFilePath}">文件下载</a></td>
                             <td>
-                                <button th:attr="del_uri=@{/answer/modifyAnswer/}+${answer.id}" class="btn btn-sm btn-default see">批改</button>
+                                <button th:attr="see_uri=@{/answer/modifyAnswer/}+${answer.id}" class="btn btn-sm btn-default see">批改</button>
                                 <button th:attr="del_uri=@{/answer/deleteRecore/}+${answer.id}" class="btn btn-sm btn-danger deleteBtn">删除</button>
                             </td>
                         </tr>
@@ -83,7 +83,7 @@
 
     //删除指定id试题
     $(".see").click(function () {
-       window.location.href="/answer/modifyAnswer/"+document.getElementById("homeworkId").value;
+       window.location.href=$(this).attr("see_uri");
     });
 </script>
 
